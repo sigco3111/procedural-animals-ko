@@ -1,30 +1,35 @@
-# three.js Procedural Animals
+# three.js 절차형 동물 — 한글판 (Procedural Animals KO)
 
-**[Live showcase](https://majidmanzarpour.github.io/threejs-procedural-animals/)** · [Repository](https://github.com/majidmanzarpour/threejs-procedural-animals) · <!-- demo video link -->
+**[한글 쇼케이스 바로 실행](https://sigco3111.github.io/procedural-animals-ko/)** · [원본 저장소](https://github.com/majidmanzarpour/threejs-procedural-animals) · [원본 라이브 쇼케이스](https://majidmanzarpour.github.io/threejs-procedural-animals/)
 
-24 animals for three.js, generated entirely in code: no models, no textures, no animation clips.
-Call `createAnimal('wolf')`, add it to your scene and steer it.
+three.js를 위한 동물 24종을 전부 코드로 생성하는 라이브러리입니다. 모델 파일도, 텍스처도, 애니메이션 클립도 없습니다.
+`createAnimal('wolf')`를 호출해 씬에 추가하고 조종하면 됩니다.
 
-- **24 species, 6 body plans:** paws, hooves, birds, swimmers, snakes, spiders (plus hoppers). Breeds,
-  coats and morphs, both sexes, young animals.
-- **Built at runtime:** sculpted from signed distance fields, meshed, rigged, skinned
-  (dual-quaternion), covered in fur, feathers or scales, and animated with IK gaits and actions.
-- **Seeded individuals:** `seed` picks a repeatable animal with its own size, proportions and coat.
-- **From close-ups to crowds:** five quality tiers, from `hero` (~120k vertices) to `crowd`
-  (~6k vertices, one draw call).
-- **Off the main thread:** builds run in Web Workers, or bake individuals offline for instant loading.
+이 저장소는 원본의 **한글화 포크**입니다. 쇼케이스 UI, 동물 이름, 데모 릴 자막, 코드 생성기 출력이 한글로 표시됩니다.
 
-## Install
+![한글 쇼케이스](docs/screenshot-main.png)
+
+## 주요 특징
+
+- **24종, 6가지 체형:** 발톱 동물, 발굽 동물, 새, 수생 동물, 뱀, 거미 (깡충 동물 포함). 품종·털색·모프, 암수, 어린 개체까지 지원.
+- **실행 시점 생성:** 부호 있는 거리 필드(SDF)로 조각하고, 메시 생성, 리깅, 스키닝(듀얼 쿼터니언), 털·깃털·비늘 덮개, IK 보행과 행동까지 전부 코드로 만듭니다.
+- **시드 기반 개체:** `seed` 값으로 크기·비율·털색이 다른 반복 가능한 개체를 만듭니다.
+- **클로즈업부터 군중까지:** 다섯 단계 품질 — `hero`(정점 약 12만 개)부터 `crowd`(정점 약 6천 개, 드로 콜 1개)까지.
+- **메인 스레드 분리:** Web Worker에서 생성하거나, 오프라인에서 베이크해 즉시 로딩할 수 있습니다.
+
+![동물 선택 패널](docs/screenshot-panel.png)
+
+## 설치
 
 ```sh
 npm install procedural-animals three
-# until it is published on npm:
+# npm 배포 전까지는:
 npm install github:majidmanzarpour/threejs-procedural-animals three
 ```
 
-three.js r160+ is the only (peer) dependency. Plain ES modules with TypeScript declarations.
+유일한 (피어) 의존성은 three.js r160 이상입니다. 타입 선언이 포함된 순수 ES 모듈입니다.
 
-## Quickstart
+## 빠른 시작
 
 ```js
 import * as THREE from 'three';
@@ -49,203 +54,47 @@ scene.add(floor);
 
 async function main() {
   const wolf = await createAnimal('wolf', { seed: 3, quality: 'high' });
-  scene.add(wolf.object); // don't move wolf.object yourself: the animal moves itself
+  scene.add(wolf.object); // wolf.object는 직접 움직이지 마세요: 동물이 스스로 움직입니다
 
   let last = performance.now();
   renderer.setAnimationLoop((now) => {
-    const dt = (now - last) / 1000; // seconds
+    const dt = (now - last) / 1000; // 초
     last = now;
-    wolf.move({ speed: wolf.gears.walk, heading: now / 1000 * 0.3 }); // m/s, radians
-    wolf.update(dt); // once per frame
+    wolf.move({ speed: wolf.gears.walk, heading: now / 1000 * 0.3 }); // m/s, 라디안
+    wolf.update(dt); // 매 프레임 한 번
     camera.lookAt(wolf.position);
-    renderer.render(scene, camera);
   });
 }
-main(); // no top-level await in the entry module (it can deadlock a Vite production build)
+main();
 ```
 
-Then:
+전체 API와 고급 기능(지면·수면 함수, 퍼치, 베이크, 군집)은 [원본 README](https://github.com/majidmanzarpour/threejs-procedural-animals#readme)와 `llms.txt`를 참고하세요.
 
-```js
-wolf.moveTo(new THREE.Vector3(10, 0, 4), { speed: 3 }); // walk there, emits 'arrive'
-wolf.follow(body.position, body.velocity);                // or follow your physics body, every frame
-wolf.lookAt(player.position);                             // null to stop
-await wolf.play('attack');                                // 'done' | 'interrupted' | 'stopped' | 'refused'
-wolf.on('footstep', (e) => sfx.play('step', e.position, e.strength));
-wolf.on('attackHit', (e) => damage(e.position, e.direction));
-wolf.dispose();                                           // free GPU resources, remove from the scene
-```
-
-### Web Workers
-
-`createAnimal` builds in module workers by default and falls back to the calling thread where
-`Worker` doesn't exist. With **Vite**:
-
-```js
-// vite.config.js
-export default {
-  worker: { format: 'es' },
-  build: { target: 'es2022' },
-  optimizeDeps: { exclude: ['procedural-animals'] },
-};
-```
-
-webpack 5 and Parcel 2 need no setup. For other bundlers, bundle the worker yourself and install it:
-
-```sh
-npx esbuild node_modules/procedural-animals/src/worker.js --bundle --format=iife --minify --outfile=public/animal-worker.js
-```
-
-```js
-import { setWorkerFactory } from 'procedural-animals';
-setWorkerFactory(() => new Worker('/animal-worker.js'));
-```
-
-`createAnimal(id, { worker: false })` builds on the calling thread (blocks for the build time).
-
-### Baking (instant loading)
-
-A build takes 0.4-6 s. Bake individuals ahead of time into `.animal` files and load them in ~20 ms:
-
-```sh
-npx procedural-animals-bake wolf --seed 3 --quality high -o public/wolf-3.animal
-```
-
-```js
-const wolf = await createAnimal('wolf', { baked: fetch('/wolf-3.animal').then((r) => r.arrayBuffer()) });
-```
-
-## API
-
-```js
-import { createAnimal, listSpecies, loadSpecies, setWorkerFactory, clearBuildCache, QUALITY } from 'procedural-animals';
-```
-
-**`createAnimal(species, options)`** (every option is optional)
-
-| option | default | meaning |
-| --- | --- | --- |
-| `seed` | `1` | the individual (size, proportions, coat; sex, age and variant unless given) |
-| `quality` | `'high'` | `'hero' \| 'high' \| 'medium' \| 'low' \| 'crowd'` |
-| `variant`, `sex`, `age` | by seed | breed / coat / morph; `'male' \| 'female'`; `'adult' \| 'juvenile'` |
-| `ground` | `() => 0` | `(x, z) => y` terrain height, in the space of `animal.object.parent` |
-| `water` | none | `(x, z) => y \| null` water surface (swimmers need it; land animals drink and wade) |
-| `perches` | `[]` | `Vector3[]` points birds can fly to |
-| `position`, `heading` | origin, `0` | start pose (heading in radians, `0` faces +Z) |
-| `baked` | none | an `ArrayBuffer` (or a Promise of one) from a `.animal` file |
-| `worker` | `true` | `false` builds on this thread |
-| `castShadow`, `receiveShadow` | `true` | |
-
-**The animal**
-
-| member | meaning |
-| --- | --- |
-| `object` | the `Object3D` to add to your scene (keep its transform at identity) |
-| `update(dt)` | advance `dt` seconds; call once per frame |
-| `move({ speed, heading })`, `stop()`, `moveTo(point, { speed })`, `follow(pos, vel)` | locomotion; the animal picks its gait |
-| `lookAt(target)` | track a `Vector3` with the head |
-| `play(action, opts)`, `stopAction(name)` | actions; `play` returns a Promise |
-| `on(event, fn)`, `off(event, fn)` | events: `footstep`, `attackHit`, `actionStart`, `actionEnd`, `arrive`, `takeoff`, `land`, `death`, `vocalize`, `wingbeat` |
-| `setQuality(tier)`, `setLod(0 \| 1 \| 2)` | coat detail on the existing mesh; motion detail for crowds |
-| `setDebug(mode, on)`, `setCoverings(on)` | `'albedo' \| 'weights' \| 'material' \| 'bare'`; fur shells on/off |
-| `position`, `heading`, `speed`, `velocity`, `state` | current motion state (read only) |
-| `gears`, `gaits`, `actions` | this individual's named speeds (m/s), gaits and actions |
-| `attachments` | `mouth`, `head`, `back` (+ bird feet, horse `seat` / stirrups / bits) to parent props to |
-| `dispose()` | free everything |
-
-**Actions:** every species has `jump`, `sit`, `lie`, `sleep`, `eat`, `drink`, `attack`, `hit`,
-`death` and `stand`. Birds add `takeoff`, `land`, `perch`, `glide`, `flap`; swimmers `burst`;
-snakes `coil`, `strike`; hoppers `hop`; many species add their own (see below).
-
-**Quality tiers**
-
-| tier | vertices | use |
-| --- | ---: | --- |
-| `hero` | 110-130k | cinematic close-ups |
-| `high` | 65-80k | the player's animal (default) |
-| `medium` | 25-32k | mid distance, phones |
-| `low` | 11-15k | herds of 10-20 |
-| `crowd` | 5-8k | crowds of 100 (with `setLod(2)`), one draw call |
-
-Builds are cached by species, seed, quality and variant, so a herd of 100 from 6 seeds builds 6 times.
-CPU cost is ~0.1 ms per animal per frame.
-
-The complete reference (every option, event payload, state field and recipe) is in
-[llms.txt](llms.txt), and the types are in [src/index.d.ts](src/index.d.ts).
-
-## Species
-
-| id | plan | variants | extra actions |
-| --- | --- | --- | --- |
-| `wolf` | paws | grey, black, pale, tawny | snarl / howl body language |
-| `dog` | paws | shepherd, retriever, terrier | greet, playbow, sniff, dig |
-| `fox` | paws | red, cross, silver, urban | pounce, listen |
-| `cat` | paws | mackerel, classic, ginger, black, tuxedo, calico, grey | loaf, groom, knead, stalk, slowblink |
-| `lion` | paws | tawny, white | roar, yawn |
-| `cheetah` | paws | | sprint gait |
-| `bear` | paws | eurasian, grizzly, coastal, black | standup, sniff, dig |
-| `rat` | paws | wild, agouti, dark, albino, hooded | rear, groom, scurry, box |
-| `rabbit` | hopper | wild, domestic, fawn, black, white, dutch, lop, ... | hop, binky, groom, periscope, thump, flee |
-| `horse` | hooves | bay, darkbay, chestnut, black, grey, palomino, dun, buckskin | rideable (`seat`, stirrups) |
-| `deer` | hooves | summer, winter | stomp, alert, flee |
-| `cow` | hooves | holstein, hereford, angus, jersey, highland | lick, chew, moo, swish, shake |
-| `pig` | hooves | largewhite, landrace, duroc, hampshire, berkshire, spotted | wallow, grunt, sniff, root, frolic |
-| `sheep` | hooves | whiteface, suffolk, merino, black, shorn | alert, bleat, headshake, stamp, pronk |
-| `goat` | hooves | saanen, alpine, pied, nubian, boer | browse, bleat, headshake, paw |
-| `boar` | hooves | adult, yearling, piglet | sniff, grunt, headshake |
-| `frog` | hopper | bullfrog, bullfrog-pale, common-frog | hop, croak, blink |
-| `chicken` | bird | red, leghorn, australorp, barred, buff, speckled | rooster, chick |
-| `crow` | bird | american, carrion, hooded | |
-| `eagle` | bird | bald, golden | |
-| `fish` | swimmer | trout, goldfish, clownfish, bluegill | burst |
-| `shark` | swimmer | white, blacktip | burst |
-| `snake` | snake | corn, rattlesnake | coil, strike |
-| `spider` | spider | wolf, tarantula | |
-
-Import one species directly to bundle only it: `import wolf from 'procedural-animals/species/wolf'`
-and `createAnimal(wolf, { seed: 3 })`. String ids load species on demand.
-
-## For AI agents
-
-Read [llms.txt](llms.txt) (complete, dense reference) and [src/index.d.ts](src/index.d.ts). The contract:
-
-1. `const a = await createAnimal(id, { seed, quality, ground, position, heading })` inside an `async` function
-2. `scene.add(a.object)` and never transform `a.object` yourself
-3. steer with `a.move({ speed, heading })`, `a.moveTo(point)` or `a.follow(pos, vel)` every frame
-4. `a.play(action)` for actions
-5. `a.update(dt)` once per frame with `dt` in **seconds**; `a.dispose()` when done
-
-Units: metres, seconds, radians, +Y up, heading `0` faces +Z (`Math.atan2(dx, dz)` faces a point).
-Read speeds from `a.gears` (names differ per species). `ground` must match the terrain you draw.
-Swimmers need `water` and a start position below the surface.
-
-## Showcase
-
-The [live showcase](https://majidmanzarpour.github.io/threejs-procedural-animals/) shows every
-species, variant and action, with debug views (skeleton, IK, SDF primitives, skin weights) and a
-"use in your game" panel that writes the code for the animal on screen. Add `?demo` for the
-two-minute reel.
+## 쇼케이스 로컬 실행
 
 ```sh
 npm install
-npm run build:showcase   # dist/showcase.html
-npm run build:pages      # dist/pages/, deployed to GitHub Pages by .github/workflows/pages.yml
-node showcase/record.mjs # render the demo reel to MP4 (needs Chromium and ffmpeg)
+npm run build:showcase   # dist/showcase.html 생성 (단일 파일, 브라우저로 바로 열기)
+npm run build:pages      # dist/pages/ 생성 (정적 배포용)
+npm test                 # 24종 생성·행동 회귀 테스트
 ```
 
-## Contributing
+## 기술 노트
 
-[docs/AUTHORING.md](docs/AUTHORING.md) explains how a species is built and checked.
+- 쇼케이스는 `showcase/build.mjs`로 라이브러리·three.js·빌드 워커까지 하나의 HTML로 인라인합니다. 외부 리소스는 Google Fonts 스타일시트뿐입니다.
+- 한글화는 표시 문자열에만 적용했습니다. 종·변이·보행·행동의 **id는 영문 그대로**라 원본 API와 완전히 호환됩니다 (`createAnimal('wolf')` 등 동일하게 동작).
+- 한글 표시 매핑은 `showcase/src/ko.js`에 모여 있습니다.
 
-```sh
-npm test                                   # every species builds, moves and plays every action
-node tools/metrics.mjs <id> --seeds 1-4    # motion, skin and performance checks (tools/thresholds.json)
-node tools/render.mjs <id> --views turntable,gaits,face,actions
-node tools/compare.mjs <id>                # renders beside your local reference photos
-```
+## 한글화 범위
 
-The browser tools need Chromium (`npx playwright-core install chromium`).
+- 쇼케이스 전체 UI: 제목, 패널(동물/환경/디버그/모드/코드), 토글, 버튼, 힌트, 로딩 화면, 접근성 레이블
+- 24종 표시 이름과 변이·품종 이름 (학명은 원문 유지)
+- 보행(걷기·속보·질주 등)과 행동 칩(포효·그루밍·덮치기 등 60여 종) 한글 표시
+- 상태 표시줄, 토스트, 성능 HUD 레이블
+- 데모 릴: 종 자막, "만드는 과정" 단계 표시, 오프닝·엔딩 타이틀
+- 코드 생성기 출력의 주석
 
-## License
+## 라이선스·출처
 
-MIT. See [LICENSE](LICENSE).
+- 원작: [threejs-procedural-animals](https://github.com/majidmanzarpour/threejs-procedural-animals) by **Majid Manzarpour**, MIT License (원본 [LICENSE](LICENSE) 그대로 포함).
+- 이 한글화 포크도 같은 MIT 라이선스를 따릅니다.
