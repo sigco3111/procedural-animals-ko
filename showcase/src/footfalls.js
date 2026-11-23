@@ -176,7 +176,7 @@ export class Footfalls {
       let txt = gaitName || '';
       if (wave) {
         const f = animal?.state?.stats?.freq;
-        if (Number.isFinite(f) && f > 0.05 && gaitName !== 'stand') txt += ` · ${f.toFixed(1)} Hz`;
+        if (Number.isFinite(f) && f > 0.05 && gaitName !== '정지') txt += ` · ${f.toFixed(1)} Hz`;
       } else if (this.source === 'events') txt += ' · touchdowns';
       this.label.textContent = txt;
     }

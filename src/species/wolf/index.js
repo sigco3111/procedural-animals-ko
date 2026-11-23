@@ -9,7 +9,7 @@ const VARIANTS = [['grey', 0.6], ['black', 0.2], ['pale', 0.15], ['tawny', 0.05]
 
 export default {
   id: 'wolf',
-  name: 'Grey wolf',
+  name: '회색 늑대',
   latin: 'Canis lupus',
   group: 'paws',
   plan: 'quadruped',
@@ -17,10 +17,10 @@ export default {
   // the colour morphs (createAnimal('wolf', { variant: 'black' })); without a variant the seed picks one
   // (grey 60 %, black 20 %, pale 15 %, tawny 5 %)
   variants: [
-    { id: 'grey', name: 'Grey wolf', latin: 'Canis lupus' },
-    { id: 'black', name: 'Black wolf', latin: 'Canis lupus (melanistic)' },
-    { id: 'pale', name: 'Pale wolf', latin: 'Canis lupus (arctic type)' },
-    { id: 'tawny', name: 'Tawny wolf', latin: 'Canis lupus (Eurasian type)' },
+    { id: 'grey', name: '회색 늑대', latin: 'Canis lupus' },
+    { id: 'black', name: '검은 늑대', latin: 'Canis lupus (melanistic)' },
+    { id: 'pale', name: '엷은 늑대', latin: 'Canis lupus (arctic type)' },
+    { id: 'tawny', name: '황갈색 늑대', latin: 'Canis lupus (Eurasian type)' },
   ],
 
   // Seeded individual. Morph (grey agouti 60 %, black 20 %, pale / arctic-type 15 %, tawny 5 %);

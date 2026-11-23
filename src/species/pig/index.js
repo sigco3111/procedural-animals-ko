@@ -25,18 +25,18 @@ const pick = (R, table) => {
 // Breeds: withers height of an adult sow (boars ~5-10 % taller), ears, face, build
 // (a finisher of 0.72 m is the reference individual)
 const BREED = {
-  largewhite: { name: 'Large White / Yorkshire', h: [0.7, 0.9], ear: 'erect', dish: 0.35, snout: 1.0, length: 1.0, legs: 1.0, girth: 1.0, ham: 1.0, earSize: 1.0 },
-  landrace: { name: 'Landrace', h: [0.68, 0.88], ear: 'lop', dish: 0.0, snout: 1.1, length: 1.08, legs: 0.98, girth: 0.97, ham: 0.95, earSize: 1.05 },
-  duroc: { name: 'Duroc', h: [0.72, 0.92], ear: 'semi', dish: 0.25, snout: 1.0, length: 0.98, legs: 1.02, girth: 1.04, ham: 1.1, earSize: 0.95 },
-  hampshire: { name: 'Hampshire', h: [0.7, 0.88], ear: 'erect', dish: 0.15, snout: 1.02, length: 0.98, legs: 1.0, girth: 1.02, ham: 1.08, earSize: 0.9 },
-  berkshire: { name: 'Berkshire', h: [0.64, 0.82], ear: 'erect', dish: 0.9, snout: 0.86, length: 0.96, legs: 0.96, girth: 1.03, ham: 1.02, earSize: 0.9 },
-  spotted: { name: 'Spotted (Gloucester Old Spot)', h: [0.7, 0.88], ear: 'lop', dish: 0.2, snout: 1.0, length: 1.0, legs: 0.98, girth: 1.05, ham: 1.0, earSize: 1.0 },
+  largewhite: { name: '라지 화이트 / 요크셔', h: [0.7, 0.9], ear: 'erect', dish: 0.35, snout: 1.0, length: 1.0, legs: 1.0, girth: 1.0, ham: 1.0, earSize: 1.0 },
+  landrace: { name: '랜드레이스', h: [0.68, 0.88], ear: 'lop', dish: 0.0, snout: 1.1, length: 1.08, legs: 0.98, girth: 0.97, ham: 0.95, earSize: 1.05 },
+  duroc: { name: '듀록', h: [0.72, 0.92], ear: 'semi', dish: 0.25, snout: 1.0, length: 0.98, legs: 1.02, girth: 1.04, ham: 1.1, earSize: 0.95 },
+  hampshire: { name: '햄프셔', h: [0.7, 0.88], ear: 'erect', dish: 0.15, snout: 1.02, length: 0.98, legs: 1.0, girth: 1.02, ham: 1.08, earSize: 0.9 },
+  berkshire: { name: '버크셔', h: [0.64, 0.82], ear: 'erect', dish: 0.9, snout: 0.86, length: 0.96, legs: 0.96, girth: 1.03, ham: 1.02, earSize: 0.9 },
+  spotted: { name: '얼룩 (글로스터 올드 스폿)', h: [0.7, 0.88], ear: 'lop', dish: 0.2, snout: 1.0, length: 1.0, legs: 0.98, girth: 1.05, ham: 1.0, earSize: 1.0 },
 };
 const VARIANT_KEYS = Object.keys(BREED);
 
 export default {
   id: 'pig',
-  name: 'Pig',
+  name: '돼지',
   latin: 'Sus scrofa domesticus',
   group: 'hooves',
   plan: 'quadruped',

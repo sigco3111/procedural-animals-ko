@@ -39,7 +39,7 @@ const BREEDS = {
 
 export default {
   id: 'goat',
-  name: 'Goat',
+  name: '염소',
   latin: 'Capra hircus',
   group: 'hooves',
   plan: 'quadruped',

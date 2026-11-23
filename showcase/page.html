@@ -1,5 +1,5 @@
-<title>THREE.JS PROCEDURAL ANIMALS</title>
-<meta name="description" content="24 fully procedural animals for three.js: every body, coat and motion is generated in your browser. No models, no textures, no downloads.">
+<title>THREE.JS 절차형 동물</title>
+<meta name="description" content="three.js용 완전 절차형 동물 24종: 몸, 털, 움직임 모두 브라우저에서 생성됩니다. 모델도, 텍스처도, 다운로드도 없습니다.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
@@ -184,7 +184,7 @@ input[type=number]{font-family:var(--mono);width:100%}
   #stats{display:none}
   #camSeg button{padding:7px 10px;font-size:12px}
   #camSeg button[aria-pressed="false"]{display:none}
-  #camSeg button[aria-pressed="true"]::before{content:"Camera · ";font-weight:500;opacity:.7}
+  #camSeg button[aria-pressed="true"]::before{content:"카메라 · ";font-weight:500;opacity:.7}
   #topRight{flex-direction:column;align-items:flex-end;gap:6px}
   #panelBtn{padding:9px 12px}
   #panel{left:0;right:0;top:auto;bottom:0;width:auto;max-height:42%;border-radius:18px 18px 0 0;padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -208,122 +208,122 @@ input[type=number]{font-family:var(--mono);width:100%}
 @media (prefers-reduced-motion: reduce){ #loader{transition:none} }
 </style>
 <div id="app">
-  <canvas id="gl" tabindex="0" aria-label="3D scene. Drag to orbit the camera; click or tap the ground to send the animal there."></canvas>
+  <canvas id="gl" tabindex="0" aria-label="3D 장면. 드래그로 카메라를 돌리고, 땅을 클릭하거나 탭하면 동물이 그곳으로 갑니다."></canvas>
   <div id="vignette"></div>
   <div id="split" hidden><div class="divider"></div><div class="tag glass" id="tagA"></div><div class="tag glass" id="tagB"></div></div>
 
   <header id="title" class="glass">
-    <div class="eyebrow"><b>three.js procedural animals</b><a href="https://github.com/majidmanzarpour/threejs-procedural-animals" target="_blank" rel="noopener" title="Source code on GitHub">GitHub ↗</a></div>
-    <h1 id="tName"><i>Procedural animals</i></h1>
+    <div class="eyebrow"><b>three.js 절차형 동물</b><a href="https://github.com/majidmanzarpour/threejs-procedural-animals" target="_blank" rel="noopener" title="원본 소스 코드 (GitHub)">원본 ↗</a></div>
+    <h1 id="tName"><i>절차형 동물</i></h1>
     <div class="sub" id="tSub">&nbsp;</div>
-    <div id="status"><span class="dot"></span><span id="statusText">Starting</span></div>
+    <div id="status"><span class="dot"></span><span id="statusText">시작 중</span></div>
     <div id="stats">
       <div><div class="v" id="sSpeed">0</div><div class="k">km/h</div></div>
-      <div><div class="v" id="sGait">–</div><div class="k">gait</div></div>
-      <div id="altStat" hidden><div class="v" id="sAlt">–</div><div class="k" id="altK">alt m</div></div>
+      <div><div class="v" id="sGait">–</div><div class="k">걸음</div></div>
+      <div id="altStat" hidden><div class="v" id="sAlt">–</div><div class="k" id="altK">고도 m</div></div>
       <div><div class="v" id="sFps">–</div><div class="k">fps</div></div>
     </div>
   </header>
 
   <div id="topRight">
-    <div class="seg glass" id="camSeg" role="group" aria-label="Camera">
-      <button data-cam="orbit" aria-pressed="false">Orbit</button><button data-cam="follow" aria-pressed="false">Follow</button><button data-cam="director" aria-pressed="true">Director</button>
+    <div class="seg glass" id="camSeg" role="group" aria-label="카메라">
+      <button data-cam="orbit" aria-pressed="false">궤도</button><button data-cam="follow" aria-pressed="false">따라가기</button><button data-cam="director" aria-pressed="true">감독</button>
     </div>
-    <button id="panelBtn" class="glass" aria-expanded="true" aria-controls="panel">Controls</button>
+    <button id="panelBtn" class="glass" aria-expanded="true" aria-controls="panel">컨트롤</button>
   </div>
 
-  <aside id="panel" class="glass" aria-label="Controls">
+  <aside id="panel" class="glass" aria-label="컨트롤">
     <div id="tabs" role="tablist">
-      <button role="tab" data-tab="animal" aria-selected="true">Animal</button>
-      <button role="tab" data-tab="world" aria-selected="false">World</button>
-      <button role="tab" data-tab="debug" aria-selected="false">Debug</button>
-      <button role="tab" data-tab="modes" aria-selected="false">Modes</button>
-      <button role="tab" data-tab="code" aria-selected="false">Code</button>
-      <button id="panelClose" aria-label="Close controls" title="Close">✕</button>
+      <button role="tab" data-tab="animal" aria-selected="true">동물</button>
+      <button role="tab" data-tab="world" aria-selected="false">환경</button>
+      <button role="tab" data-tab="debug" aria-selected="false">디버그</button>
+      <button role="tab" data-tab="modes" aria-selected="false">모드</button>
+      <button role="tab" data-tab="code" aria-selected="false">코드</button>
+      <button id="panelClose" aria-label="컨트롤 닫기" title="닫기">✕</button>
     </div>
     <section class="tab" data-tab="animal">
       <div id="speciesList"></div>
-      <div class="row" id="variantRow" hidden><span class="lbl">Variant</span><div id="variantList" class="vgrid"></div></div>
-      <div class="row"><label for="seed">Seed <span>every seed is a different individual</span></label>
-        <div class="inline"><input id="seed" type="number" min="0" max="999999" step="1" value="1"><button class="btn" id="dice" title="Random seed">Random</button><button class="btn primary" id="rebuild">Build</button></div>
+      <div class="row" id="variantRow" hidden><span class="lbl">변이</span><div id="variantList" class="vgrid"></div></div>
+      <div class="row"><label for="seed">시드 <span>시드마다 다른 개체가 만들어집니다</span></label>
+        <div class="inline"><input id="seed" type="number" min="0" max="999999" step="1" value="1"><button class="btn" id="dice" title="무작위 시드">무작위</button><button class="btn primary" id="rebuild">생성</button></div>
       </div>
-      <div class="row"><span class="lbl">Sex</span><div class="seg full" id="sexSeg"><button data-v="" aria-pressed="true">From seed</button><button data-v="female" aria-pressed="false">Female</button><button data-v="male" aria-pressed="false">Male</button></div></div>
-      <div class="row"><span class="lbl">Age</span><div class="seg full" id="ageSeg"><button data-v="adult" aria-pressed="true">Adult</button><button data-v="juvenile" aria-pressed="false">Juvenile</button></div></div>
-      <div class="row"><label for="quality">Quality</label>
-        <select id="quality"><option value="auto">Auto</option><option value="hero">Hero · finest mesh, most fur shells</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option><option value="crowd">Crowd · no fur shells</option></select>
+      <div class="row"><span class="lbl">성별</span><div class="seg full" id="sexSeg"><button data-v="" aria-pressed="true">시드에 맡김</button><button data-v="female" aria-pressed="false">암컷</button><button data-v="male" aria-pressed="false">수컷</button></div></div>
+      <div class="row"><span class="lbl">나이</span><div class="seg full" id="ageSeg"><button data-v="adult" aria-pressed="true">성체</button><button data-v="juvenile" aria-pressed="false">어린 개체</button></div></div>
+      <div class="row"><label for="quality">품질</label>
+        <select id="quality"><option value="auto">자동</option><option value="hero">히어로 · 가장 촘촘한 메시, 털 셸 최다</option><option value="high">높음</option><option value="medium">중간</option><option value="low">낮음</option><option value="crowd">군중 · 털 셸 없음</option></select>
       </div>
       <p class="note" id="buildNote"></p>
     </section>
     <section class="tab" data-tab="world" hidden>
-      <div class="row"><label for="tod">Time of day <output id="todOut"></output></label><input id="tod" type="range" min="0.02" max="0.98" step="0.01" value="0.15"></div>
-      <div class="row"><span class="lbl">Time scale</span><div class="seg full" id="tsSeg"><button data-v="1" aria-pressed="true">1×</button><button data-v="0.5" aria-pressed="false">½×</button><button data-v="0.25" aria-pressed="false">¼×</button><button data-v="0.1" aria-pressed="false">⅒×</button><button data-v="0" aria-pressed="false">Pause</button></div></div>
-      <label class="toggle"><span>Grass<small>two LOD tiles of instanced blades</small></span><input id="tGrass" type="checkbox" checked></label>
-      <label class="toggle"><span>Shadows</span><input id="tShadows" type="checkbox" checked></label>
-      <label class="toggle"><span>Fog</span><input id="tFog" type="checkbox" checked></label>
-      <p class="note">The ground is one height function, evaluated on the GPU for the terrain and handed to the animals as <b>ground(x, z)</b>; the lake is <b>water(x, z)</b>. Birds find perch points on the dead tree and the fence posts.</p>
+      <div class="row"><label for="tod">하루 중 시간 <output id="todOut"></output></label><input id="tod" type="range" min="0.02" max="0.98" step="0.01" value="0.15"></div>
+      <div class="row"><span class="lbl">시간 배속</span><div class="seg full" id="tsSeg"><button data-v="1" aria-pressed="true">1×</button><button data-v="0.5" aria-pressed="false">½×</button><button data-v="0.25" aria-pressed="false">¼×</button><button data-v="0.1" aria-pressed="false">⅒×</button><button data-v="0" aria-pressed="false">일시 정지</button></div></div>
+      <label class="toggle"><span>잔디<small>인스턴싱 풀잎 LOD 타일 2장</small></span><input id="tGrass" type="checkbox" checked></label>
+      <label class="toggle"><span>그림자</span><input id="tShadows" type="checkbox" checked></label>
+      <label class="toggle"><span>안개</span><input id="tFog" type="checkbox" checked></label>
+      <p class="note">지면은 하나의 높이 함수로, 지형용으로는 GPU에서 계산되고 동물에게는 <b>ground(x, z)</b>로 전달됩니다. 호수는 <b>water(x, z)</b>입니다. 새들은 고목과 울타리 기둥에서 앉을 자리를 찾습니다.</p>
     </section>
     <section class="tab" data-tab="debug" hidden>
-      <label class="toggle"><span>Coverings<small>fur shells &amp; fins, feathers, scales</small></span><input id="tCover" type="checkbox" checked></label>
-      <label class="toggle"><span>Skeleton &amp; IK targets</span><input id="tSkel" type="checkbox"></label>
-      <label class="toggle"><span>Skin weights</span><input id="tWeights" type="checkbox"></label>
-      <label class="toggle"><span>SDF primitives<small>the shapes the body is sculpted from</small></span><input id="tSdf" type="checkbox"></label>
-      <label class="toggle"><span>Footfall diagram</span><input id="tGait" type="checkbox" checked></label>
-      <label class="toggle"><span>Performance HUD</span><input id="tPerf" type="checkbox"></label>
+      <label class="toggle"><span>덮개<small>털 셸·지느러미, 깃털, 비늘</small></span><input id="tCover" type="checkbox" checked></label>
+      <label class="toggle"><span>스켈레톤과 IK 타깃</span><input id="tSkel" type="checkbox"></label>
+      <label class="toggle"><span>스킨 가중치</span><input id="tWeights" type="checkbox"></label>
+      <label class="toggle"><span>SDF 기본형<small>몸을 조각하는 도형들</small></span><input id="tSdf" type="checkbox"></label>
+      <label class="toggle"><span>발자국 다이어그램</span><input id="tGait" type="checkbox" checked></label>
+      <label class="toggle"><span>성능 HUD</span><input id="tPerf" type="checkbox"></label>
     </section>
     <section class="tab" data-tab="modes" hidden>
-      <h3>Crowd</h3>
-      <label class="toggle"><span><span id="crowdLabel">Herd of this species</span><small>a handful of seeds reused, 'crowd' quality</small></span><input id="tCrowd" type="checkbox"></label>
-      <div class="row"><label for="crowdN">Animals <output id="crowdNOut">30</output></label><input id="crowdN" type="range" min="10" max="1000" step="5" value="30"></div>
-      <p class="note" id="crowdNote">The performance HUD shows frame rate, CPU time per animal update, draw calls and geometry.</p>
-      <h3>Compare</h3>
-      <label class="toggle"><span>Split view<small>two animals, synced actions and movement</small></span><input id="tCompare" type="checkbox"></label>
-      <div class="row"><label for="cmpSpecies">Right-hand animal</label><select id="cmpSpecies"></select></div>
-      <div class="row"><label for="cmpSeed">Seed</label><div class="inline"><input id="cmpSeed" type="number" min="0" max="999999" value="2"><button class="btn" id="cmpDice">Random</button><button class="btn primary" id="cmpBuild">Build</button></div></div>
-      <h3>Demo reel</h3>
-      <p class="note">Two choreographed minutes of every species, with "how it's made" reveals. Add <b>&amp;aspect=9:16</b> for a vertical cut.</p>
-      <a class="btn primary" id="demoLink" href="?demo" style="text-align:center;text-decoration:none">Play the demo reel</a>
+      <h3>무리</h3>
+      <label class="toggle"><span><span id="crowdLabel">이 종의 무리</span><small>몇 개의 시드를 재사용, '군중' 품질</small></span><input id="tCrowd" type="checkbox"></label>
+      <div class="row"><label for="crowdN">마리 수 <output id="crowdNOut">30</output></label><input id="crowdN" type="range" min="10" max="1000" step="5" value="30"></div>
+      <p class="note" id="crowdNote">성능 HUD에 프레임 레이트, 개체당 CPU 업데이트 시간, 드로 콜과 지오메트리가 표시됩니다.</p>
+      <h3>비교</h3>
+      <label class="toggle"><span>화면 분할<small>두 동물, 행동·이동 동기화</small></span><input id="tCompare" type="checkbox"></label>
+      <div class="row"><label for="cmpSpecies">오른쪽 동물</label><select id="cmpSpecies"></select></div>
+      <div class="row"><label for="cmpSeed">Seed</label><div class="inline"><input id="cmpSeed" type="number" min="0" max="999999" value="2"><button class="btn" id="cmpDice">무작위</button><button class="btn primary" id="cmpBuild">생성</button></div></div>
+      <h3>데모 릴</h3>
+      <p class="note">모든 종이 등장하는 2분짜리 연출 영상, "만드는 과정" 공개 포함. <b>&amp;aspect=9:16</b>을 붙이면 세로 화면으로 재생됩니다.</p>
+      <a class="btn primary" id="demoLink" href="?demo" style="text-align:center;text-decoration:none">데모 릴 재생</a>
     </section>
     <section class="tab" data-tab="code" hidden>
-      <div class="codebar"><h3>Use in your game</h3><button class="btn primary" id="copy">Copy</button></div>
-      <p class="note">For the animal on screen right now: species, seed, quality and settings.</p>
+      <div class="codebar"><h3>내 게임에 넣기</h3><button class="btn primary" id="copy">복사</button></div>
+      <p class="note">지금 화면의 동물 기준: 종, 시드, 품질, 설정.</p>
       <pre id="code"></pre>
     </section>
   </aside>
 
-  <div id="gaitCard" class="glass"><div class="lbl"><span id="gaitTitle">Footfalls</span><span id="gaitName">–</span></div><canvas id="gaitCanvas" width="456" height="132"></canvas></div>
+  <div id="gaitCard" class="glass"><div class="lbl"><span id="gaitTitle">발자국</span><span id="gaitName">–</span></div><canvas id="gaitCanvas" width="456" height="132"></canvas></div>
   <div id="perf" class="glass mono" hidden>
     <div><div class="v" id="pFps">–</div><div class="k">fps</div></div>
-    <div><div class="v" id="pCpu">–</div><div class="k">cpu ms / animal</div></div>
-    <div><div class="v" id="pAnim">–</div><div class="k">animals</div></div>
-    <div><div class="v" id="pCalls">–</div><div class="k">draw calls</div></div>
-    <div><div class="v" id="pTris">–</div><div class="k">triangles</div></div>
-    <div><div class="v" id="pVerts">–</div><div class="k">vertices</div></div>
+    <div><div class="v" id="pCpu">–</div><div class="k">CPU ms / 마리</div></div>
+    <div><div class="v" id="pAnim">–</div><div class="k">마리 수</div></div>
+    <div><div class="v" id="pCalls">–</div><div class="k">드로 콜</div></div>
+    <div><div class="v" id="pTris">–</div><div class="k">삼각형</div></div>
+    <div><div class="v" id="pVerts">–</div><div class="k">정점</div></div>
   </div>
 
   <div id="dock" class="glass">
-    <div id="actionsWrap"><span class="lbl">Actions</span><div id="actions" class="chips" role="group" aria-label="Actions"></div></div>
+    <div id="actionsWrap"><span class="lbl">행동</span><div id="actions" class="chips" role="group" aria-label="행동"></div></div>
     <div class="dockRow">
-      <button class="pill" id="autoBtn" aria-pressed="false">Autopilot</button>
-      <div class="seg" id="gaitSeg" role="group" aria-label="Gait"></div>
-      <div class="speed"><input id="speed" type="range" min="0" max="10" step="0.05" value="0" aria-label="Speed"><output id="speedOut">0 m/s</output></div>
+      <button class="pill" id="autoBtn" aria-pressed="false">자동 조종</button>
+      <div class="seg" id="gaitSeg" role="group" aria-label="걸음"></div>
+      <div class="speed"><input id="speed" type="range" min="0" max="10" step="0.05" value="0" aria-label="속도"><output id="speedOut">0 m/s</output></div>
     </div>
-    <div class="hint"><kbd>W A S D</kbd> move · <kbd>Shift</kbd> run<span class="climbHint"> · <kbd>Space</kbd>/<kbd>C</kbd> <span id="climbWord">climb</span></span> · click the ground to send it there · drag to orbit</div>
+    <div class="hint"><kbd>W A S D</kbd> 이동 · <kbd>Shift</kbd> 달리기<span class="climbHint"> · <kbd>Space</kbd>/<kbd>C</kbd> <span id="climbWord">오르기</span></span> · 땅을 클릭하면 그곳으로 이동 · 드래그로 회전</div>
   </div>
 
   <div id="joy" hidden aria-hidden="true"><div class="knob"></div></div>
-  <div id="climb" hidden><button class="glass" data-c="1" aria-label="Climb">▲</button><button class="glass" data-c="-1" aria-label="Descend">▼</button></div>
+  <div id="climb" hidden><button class="glass" data-c="1" aria-label="오르기">▲</button><button class="glass" data-c="-1" aria-label="내리기">▼</button></div>
 
-  <div id="toast" class="glass" hidden role="status"><span id="toastText">Building</span><div class="bar"><i id="toastBar"></i></div></div>
+  <div id="toast" class="glass" hidden role="status"><span id="toastText">생성 중</span><div class="bar"><i id="toastBar"></i></div></div>
 
   <div id="loader"><div class="box">
-    <div class="eyebrow">three.js procedural animals</div>
-    <h1 id="loadName"><i>Procedural animals</i></h1>
-    <p>Nothing is downloaded: the body is sculpted from signed distance fields, skinned, and given its coat right here, in Web Workers.</p>
+    <div class="eyebrow">three.js 절차형 동물</div>
+    <h1 id="loadName"><i>절차형 동물</i></h1>
+    <p>다운로드되는 것은 없습니다: 몸은 부호 있는 거리 필드(SDF)로 조각하고, 스키닝하고, 털까지 지금 이곳 Web Worker 안에서 만듭니다.</p>
     <ol id="steps">
-      <li data-k="mesh">Sculpting and meshing the body</li>
-      <li data-k="weights">Skinning to the skeleton</li>
-      <li data-k="coat">Growing the coat</li>
-      <li data-k="gpu">Uploading to the GPU</li>
+      <li data-k="mesh">몸 조각과 메시 생성</li>
+      <li data-k="weights">스켈레톤에 스키닝</li>
+      <li data-k="coat">털·깃털 입히기</li>
+      <li data-k="gpu">GPU로 업로드</li>
     </ol>
     <div class="lbar"><i id="loadBar"></i></div>
     <div id="err"></div>

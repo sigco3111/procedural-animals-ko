@@ -19,7 +19,7 @@ const pick = (R, table) => {
 
 export default {
   id: 'shark',
-  name: 'Shark',
+  name: '상어',
   latin: 'Selachimorpha',
   group: 'swimmers',
   plan: 'swimmer',

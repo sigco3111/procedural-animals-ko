@@ -20,14 +20,14 @@ const EYE_LOOK = {
 
 export default {
   id: 'spider',
-  name: 'Spider',
+  name: '거미',
   latin: 'Lycosidae / Theraphosidae',
   group: 'others',
   plan: 'spider',
   covering: 'chitin',
   variants: [
-    { id: 'wolf', name: 'Wolf spider', latin: 'Lycosidae' },
-    { id: 'tarantula', name: 'Tarantula', latin: 'Theraphosidae' },
+    { id: 'wolf', name: '늑대 거미', latin: 'Lycosidae' },
+    { id: 'tarantula', name: '타란툴라', latin: 'Theraphosidae' },
   ],
 
   // Seeded individual. Females are larger with a heavy abdomen (gravid ones more so); males are

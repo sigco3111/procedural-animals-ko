@@ -22,16 +22,16 @@ const pick = (list, x) => { for (const [name, p] of list) { if (x < p) return na
 
 export default {
   id: 'bear',
-  name: 'Brown bear',
+  name: '불곰',
   latin: 'Ursus arctos',
   group: 'paws',
   plan: 'quadruped',
   covering: 'fur',
   variants: [
-    { id: 'eurasian', name: 'Eurasian brown bear', latin: 'Ursus arctos arctos' },
-    { id: 'grizzly', name: 'Grizzly bear', latin: 'Ursus arctos horribilis' },
-    { id: 'coastal', name: 'Kodiak / coastal brown bear', latin: 'Ursus arctos middendorffi' },
-    { id: 'black', name: 'American black bear', latin: 'Ursus americanus' },
+    { id: 'eurasian', name: '유라시아 불곰', latin: 'Ursus arctos arctos' },
+    { id: 'grizzly', name: '그리즐리', latin: 'Ursus arctos horribilis' },
+    { id: 'coastal', name: '코디악·연안 불곰', latin: 'Ursus arctos middendorffi' },
+    { id: 'black', name: '아메리카 흑곰', latin: 'Ursus americanus' },
   ],
 
   // Seeded individual. Males are much larger (1.2-2x the mass: x1.16 linear here), with broader

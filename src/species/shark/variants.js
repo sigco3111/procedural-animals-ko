@@ -13,7 +13,7 @@ export const VARIANTS = {
   // Great white shark (Carcharodon carcharias), adult female: spindle-shaped, conical snout, near
   // symmetric lunate tail with a caudal keel, tiny second dorsal and anal fins.
   white: {
-    name: 'Great white shark', latin: 'Carcharodon carcharias',
+    name: '백상아리', latin: 'Carcharodon carcharias',
     TL: 4.5, cellK: 1.0,
     prof: [
       [0.004, 0.004, 0.003, 0.005], [0.02, 0.019, 0.013, 0.02], [0.045, 0.034, 0.028, 0.04], [0.08, 0.048, 0.043, 0.059],
@@ -62,7 +62,7 @@ export const VARIANTS = {
   // Blacktip reef shark (Carcharhinus melanopterus): slender, short broadly rounded snout, large
   // first dorsal over the pectoral free tips, heterocercal tail with a terminal lobe, black fin tips.
   blacktip: {
-    name: 'Blacktip reef shark', latin: 'Carcharhinus melanopterus',
+    name: '검은지느러미 상어', latin: 'Carcharhinus melanopterus',
     TL: 1.3, cellK: 1.15,
     prof: [
       [0.004, 0.004, 0.003, 0.009], [0.02, 0.014, 0.011, 0.025], [0.045, 0.024, 0.021, 0.036], [0.08, 0.034, 0.031, 0.045],

@@ -10,15 +10,15 @@ import { srgb } from '../../core/build/coatKit.js';
 
 export default {
   id: 'crow',
-  name: 'Crow',
+  name: '까마귀',
   latin: 'Corvus brachyrhynchos',
   group: 'birds',
   plan: 'bird',
   covering: 'feathers',
   variants: [
-    { id: 'american', name: 'American crow', latin: 'Corvus brachyrhynchos' },
-    { id: 'carrion', name: 'Carrion crow', latin: 'Corvus corone' },
-    { id: 'hooded', name: 'Hooded crow', latin: 'Corvus cornix' },
+    { id: 'american', name: '아메리카 까마귀', latin: 'Corvus brachyrhynchos' },
+    { id: 'carrion', name: '시궁 까마귀', latin: 'Corvus corone' },
+    { id: 'hooded', name: '까치 까마귀', latin: 'Corvus cornix' },
   ],
 
   // Seeded individual. No plumage dimorphism; males ~5 % larger (wing, bill). Juveniles are adult-sized

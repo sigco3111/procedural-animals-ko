@@ -47,7 +47,7 @@ function formOf(sex, age, breed, g) {
 
 export default {
   id: 'chicken',
-  name: 'Chicken',
+  name: '닭',
   latin: 'Gallus gallus domesticus',
   group: 'birds',
   plan: 'bird',

@@ -11,7 +11,7 @@ import { srgb } from '../../core/build/coatKit.js';
 
 export default {
   id: 'eagle',
-  name: 'Eagle',
+  name: '독수리',
   latin: 'Haliaeetus leucocephalus',
   group: 'birds',
   plan: 'bird',

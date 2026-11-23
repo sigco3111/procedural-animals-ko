@@ -3,6 +3,7 @@
 // climb for flyers and swimmers) and click-to-move. It produces commands; the app applies them to the
 // hero and, in compare mode, mirrors them onto the second animal.
 import * as THREE from 'three';
+import { koAction } from './ko.js';
 import { forward } from './subject.js';
 
 const rand = (a, b) => a + Math.random() * (b - a);
@@ -289,12 +290,12 @@ export class Pilot {
   get status() {
     if (this.mode === 'auto') {
       const s = this.state;
-      if (s === 'action') return 'Autopilot · ' + this.actionName;
-      if (s === 'trip') return this.played ? 'Drinking' : 'Heading to the water';
-      if (s === 'perch') return 'Perching';
-      return { idle: 'Looking around', wander: this.info?.swimmer ? 'Swimming' : 'Wandering', run: 'On the move', fly: 'Flying' }[s] || 'Autopilot';
+      if (s === 'action') return '자동 조종 · ' + koAction(this.actionName);
+      if (s === 'trip') return this.played ? '물 마시는 중' : '물로 가는 중';
+      if (s === 'perch') return '나뭇가지에 앉는 중';
+      return { idle: '주변 둘러보기', wander: this.info?.swimmer ? '헤엄치는 중' : '어슬렁거리는 중', run: '이동 중', fly: '날아가는 중' }[s] || '자동 조종';
     }
-    if (this.mode === 'target') return 'Heading to target';
-    return this.cruise > 0 ? 'Manual · cruising' : 'Manual';
+    if (this.mode === 'target') return '목표로 이동 중';
+    return this.cruise > 0 ? '수동 · 이동 중' : '수동';
   }
 }

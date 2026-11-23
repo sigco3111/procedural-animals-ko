@@ -10,9 +10,9 @@ import { motion } from './motion.js';
 import { rng } from '../../core/math/vec.js';
 
 export const VARIANTS = {
-  shepherd: { name: 'Shepherd dog', latin: 'Canis familiaris (shepherd type)' },
-  retriever: { name: 'Retriever', latin: 'Canis familiaris (Labrador type)' },
-  terrier: { name: 'Terrier', latin: 'Canis familiaris (Jack Russell type)' },
+  shepherd: { name: '셰퍼드', latin: 'Canis familiaris (shepherd type)' },
+  retriever: { name: '리트리버', latin: 'Canis familiaris (Labrador type)' },
+  terrier: { name: '테리어', latin: 'Canis familiaris (Jack Russell type)' },
 };
 const COLOURS = {
   shepherd: [['blackTan', 0.68], ['sable', 0.27], ['black', 0.05]],
@@ -27,7 +27,7 @@ const pick = (R, table) => {
 
 export default {
   id: 'dog',
-  name: 'Dog',
+  name: '개',
   latin: 'Canis familiaris',
   group: 'paws',
   plan: 'quadruped',

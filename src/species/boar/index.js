@@ -20,7 +20,7 @@ const pick = (R, table) => {
 
 export default {
   id: 'boar',
-  name: 'Wild boar',
+  name: '멧돼지',
   latin: 'Sus scrofa',
   group: 'hooves',
   plan: 'quadruped',

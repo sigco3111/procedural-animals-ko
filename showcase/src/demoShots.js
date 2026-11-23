@@ -80,15 +80,15 @@ export const LOOK = {
 
 // the end card: the title lockup and this repository line (&repo= / record.mjs --repo override it)
 export const END_CARD = {
-  repo: 'github.com/majidmanzarpour/threejs-procedural-animals',
+  repo: 'github.com/sigco3111/procedural-animals-ko',
 };
 
 // the one short name a species' shot shows (the reel keeps text to a minimum; a shot's title.name wins)
 export const NAMES = {
-  lion: 'Lion', cheetah: 'Cheetah', fox: 'Red fox', bear: 'Grizzly', cat: 'Cat', dog: 'Dog', rat: 'Rat',
-  wolf: 'Wolf', horse: 'Horse', deer: 'Deer', crow: 'Crow', pig: 'Pig', boar: 'Wild boar', chicken: 'Chicken',
-  goat: 'Goat', eagle: 'Bald eagle', sheep: 'Sheep', fish: 'Fish', shark: 'Great white', cow: 'Cow',
-  frog: 'Bullfrog', rabbit: 'Rabbit', snake: 'Rattlesnake', spider: 'Tarantula',
+  lion: '사자', cheetah: '치타', fox: '붉은 여우', bear: '그리즐리', cat: '고양이', dog: '개', rat: '시궁쥐',
+  wolf: '늑대', horse: '말', deer: '사슴', crow: '까마귀', pig: '돼지', boar: '멧돼지', chicken: '닭',
+  goat: '염소', eagle: '흰머리 독수리', sheep: '양', fish: '물고기', shark: '백상아리', cow: '소',
+  frog: '황소개구리', rabbit: '토끼', snake: '방울뱀', spider: '타란툴라',
 };
 
 // ------------------------------------------------------------------ cast (built once, before the reel)
@@ -228,7 +228,7 @@ function bigReveal(S, key, t, T = { mesh: 2.6, weights: 4.4, rig: 6.0, coat: 7.6
   L.set(st);
 }
 // one word per stage (the reel keeps text to a minimum)
-const STAGE_WORDS = ['SDF', 'Mesh', 'Weights', 'Skeleton', 'Fur'];
+const STAGE_WORDS = ['SDF', '메시', '가중치', '골격', '털'];
 function bigCaption(S, key, t, T = { mesh: 2.6, weights: 4.4, rig: 6.0, coat: 7.6, done: 9.4 }) {
   if (!S.A(key)) return null;
   const step = t < T.mesh ? 0 : t < T.weights ? 1 : t < T.rig ? 2 : t < T.coat ? 3 : 4;
@@ -503,7 +503,7 @@ export const SHOTS = [
     caption: (S) => {
       const t = S.t, T1 = 2.1, coat = t >= T1;
       const titleA = coat ? sm(T1 + 0.02, T1 + 0.4, t) : sm(0.02, 0.4, t) * (1 - sm(T1 - 0.32, T1 - 0.02, t));
-      return { t, dur: 3.6, stageT: (coat ? t - T1 : t) / 1.2, titleA, title: coat ? 'Coat' : 'Skeleton' };
+      return { t, dur: 3.6, stageT: (coat ? t - T1 : t) / 1.2, titleA, title: coat ? '털' : '골격' };
     },
     // match cut: opens on the framing the group shot ends on (the bay, from its right), then closes in
     cam: (S) => S.orbit({ actor: 'horseRev', frame: 'heading', a: { az: -76, el: 4, fit: 1.85, fov: 30, side: 0.3, lead: -1.1 }, b: { az: -86, el: 5, fit: 1.2, fov: 30, lead: 0.3 }, ease: 'out' }),
@@ -612,7 +612,7 @@ export const SHOTS = [
       const t = S.t, T1 = EAGLE_FEATHERS[0], fe = t >= T1;
       if (t >= 3.4) return null;
       const titleA = fe ? sm(T1 + 0.02, T1 + 0.4, t) : sm(0.02, 0.4, t) * (1 - sm(T1 - 0.32, T1 - 0.02, t));
-      return { t, dur: 3.4, stageT: (fe ? t - T1 : t) / 1.2, titleA, title: fe ? 'Feathers' : 'Weights' };
+      return { t, dur: 3.4, stageT: (fe ? t - T1 : t) / 1.2, titleA, title: fe ? '깃털' : '가중치' };
     },
     // front three-quarter and from below: the spread wings face the lens against the evening sky, the
     // horizon low in the frame (from the side a gliding wing is foreshortened into a raised blade).

@@ -20,44 +20,44 @@ export function gameCode(s) {
 import * as THREE from 'three';
 import { createAnimal } from 'procedural-animals';
 
-// ${s.name} (${s.latin}${s.variantNote ? ', ' + s.variantNote : ''}), built procedurally in Web Workers (~${s.buildSec}s here)
+// ${s.name} (${s.latin}${s.variantNote ? ', ' + s.variantNote : ''}), Web Worker에서 절차적으로 생성 (여기서는 약 ${s.buildSec}초)
 const animal = await createAnimal(${q(s.species)}, {
   ${opt.join(', ')},
-  ground: (x, z) => terrain.heightAt(x, z),   // your ground height (metres, world space)${swim ? `
-  water: (x, z) => lake.surfaceAt(x, z),      // water surface height, or null where dry: it stays in the water` : drinks ? `
-  water: (x, z) => lake.surfaceAt(x, z),      // optional: water surface or null (wading, drinking at the shore)` : ''}${perches ? `
-  perches: [branchTip, fencePost],            // Vector3s it can fly to and grip: play('perch')` : ''}
-  position: new THREE.Vector3(0, ${swim ? '-0.5' : '0'}, 0),${swim ? '    // start it in the water' : ''}
-  heading: 0,                                 // radians, 0 faces +Z
+  ground: (x, z) => terrain.heightAt(x, z),   // 지면 높이 (미터, 월드 좌표)${swim ? `
+  water: (x, z) => lake.surfaceAt(x, z),      // 수면 높이, 물이 없는 곳은 null: 물 밖으로 나가지 않습니다` : drinks ? `
+  water: (x, z) => lake.surfaceAt(x, z),      // 선택: 수면 또는 null (물가를 걸어 들어가 물을 마십니다)` : ''}${perches ? `
+  perches: [branchTip, fencePost],            // 날아가 앉을 수 있는 Vector3들: play('perch')` : ''}
+  position: new THREE.Vector3(0, ${swim ? '-0.5' : '0'}, 0),${swim ? '    // 물 속에서 시작' : ''}
+  heading: 0,                                 // 라디안, 0이면 +Z 방향
 });
-scene.add(animal.object);                     // it moves itself: keep its transform at identity
+scene.add(animal.object);                     // 스스로 움직입니다: transform은 항등으로 두세요
 
-// drive it
+// 조종하기
 animal.move({ speed: ${speed}, heading: Math.PI / 2${gait}${fly ? ', climb: 1' : swim ? ', climb: -0.3' : ''} });  // m/s${fly ? `
-// climb in m/s; above the fastest ground gear (or climbing) it takes off, below flight speed it lands
+// climb은 m/s; 가장 빠른 지상 기어 이상(또는 상승 중)이면 이륙, 비행 속도 아래면 착지
 // animal.state.mode: 'ground' | 'takeoff' | 'air' | 'landing' | 'perch', animal.state.altitude (m)
-animal.play('perch', { target: branchTip });  // fly there and grip it` : swim ? `
-// climb -1..1 pitches the swim path; animal.state.depth is metres below the surface
-// moveTo targets are 3D for swimmers (clamped into the water column)` : ''}
+animal.play('perch', { target: branchTip });  // 날아가서 앉습니다` : swim ? `
+// climb -1..1로 헤엄 경로의 각도를 조절; animal.state.depth는 수면 아래 미터
+// 수생 동물의 moveTo 목표는 3D (수층 안으로 제한)` : ''}
 animal.moveTo(new THREE.Vector3(10, ${swim ? '-0.5' : '0'}, 4), { speed: ${speed} });
-animal.follow(body.position, body.velocity);  // or match your own physics body
-animal.lookAt(player.position);               // null to stop looking
+animal.follow(body.position, body.velocity);  // 또는 내 물리 바디에 맞추기
+animal.lookAt(player.position);               // null이면 바라보기 중지
 animal.play(${q(act)});${acts.length ? `                         // ${acts.join(', ')}` : ''}
 animal.on('footstep', (e) => sfx.play('step', e.position, e.strength));
 animal.on('attackHit', (e) => damage(e.position, e.direction));
 
-// every frame
+// 매 프레임
 renderer.setAnimationLoop(() => {
   animal.update(clock.getDelta());
   renderer.render(scene, camera);
 });
 
-// when you are done with it
+// 다 쓰고 나면
 animal.dispose();
 
-// ship it pre-built (no meshing at load time):
-${s.variant ? `//   writeBake(await buildAnimalData(${q(s.species)}, { ${opt.join(', ')} }))  // from 'procedural-animals' and 'procedural-animals/bake'
-//   (or npx procedural-animals-bake ${s.species} ${bakeFlags} for the default variant)` : `//   npx procedural-animals-bake ${s.species} ${bakeFlags}`}
+// 미리 빌드해서 배포 (로딩 때 메시 생성 없음):
+${s.variant ? `//   writeBake(await buildAnimalData(${q(s.species)}, { ${opt.join(', ')} }))  // 'procedural-animals'와 'procedural-animals/bake'에서
+//   (기본 변이는 npx procedural-animals-bake ${s.species} ${bakeFlags})` : `//   npx procedural-animals-bake ${s.species} ${bakeFlags}`}
 // const animal = await createAnimal(${q(s.species)}, {
 //   baked: fetch('${file}').then((r) => r.arrayBuffer()), ground });
 `;

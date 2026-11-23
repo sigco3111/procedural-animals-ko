@@ -11,7 +11,7 @@ export const VARIANT_KEYS = ['trout', 'goldfish', 'clownfish', 'bluegill'];
 export const VARIANTS = {
   // Rainbow trout (Oncorhynchus mykiss), stream-resident adult: fusiform, small head-scales, spotted.
   trout: {
-    name: 'Rainbow trout', latin: 'Oncorhynchus mykiss',
+    name: '무지개 송어', latin: 'Oncorhynchus mykiss',
     SL: 0.26, cellK: 1.0,
     prof: [
       [0.012, 0.016, 0.012, 0.012], [0.03, 0.028, 0.022, 0.022], [0.06, 0.0497, 0.0432, 0.034], [0.1, 0.0691, 0.0648, 0.045],
@@ -39,7 +39,7 @@ export const VARIANTS = {
 
   // Common goldfish (Carassius auratus): deep, round-backed cyprinid, big reflective scales, long dorsal.
   goldfish: {
-    name: 'Goldfish', latin: 'Carassius auratus',
+    name: '금붕어', latin: 'Carassius auratus',
     SL: 0.125, cellK: 1.33,
     prof: [
       [0.012, 0.024, 0.016, 0.016], [0.035, 0.05, 0.036, 0.034], [0.07, 0.084, 0.064, 0.056], [0.11, 0.113, 0.093, 0.074],
@@ -66,7 +66,7 @@ export const VARIANTS = {
 
   // Ocellaris clownfish (Amphiprion ocellaris): short oval body, rounded fins, three white bands.
   clownfish: {
-    name: 'Clownfish', latin: 'Amphiprion ocellaris',
+    name: '흰동가리', latin: 'Amphiprion ocellaris',
     SL: 0.068, cellK: 1.45,
     prof: [
       [0.012, 0.03, 0.022, 0.018], [0.035, 0.066, 0.05, 0.04], [0.07, 0.106, 0.084, 0.06], [0.12, 0.145, 0.12, 0.08],
@@ -96,7 +96,7 @@ export const VARIANTS = {
 
   // Bluegill (Lepomis macrochirus): deep, strongly compressed disc, dark ear flap, vertical bars.
   bluegill: {
-    name: 'Bluegill', latin: 'Lepomis macrochirus',
+    name: '블루길', latin: 'Lepomis macrochirus',
     SL: 0.155, cellK: 1.38,
     prof: [
       [0.012, 0.03, 0.022, 0.014], [0.035, 0.072, 0.052, 0.028], [0.07, 0.12, 0.09, 0.043], [0.12, 0.168, 0.138, 0.06],

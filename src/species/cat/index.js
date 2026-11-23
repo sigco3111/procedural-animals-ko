@@ -54,7 +54,7 @@ const EYE_BY_COAT = {
 
 export default {
   id: 'cat',
-  name: 'Domestic cat',
+  name: '고양이',
   latin: 'Felis catus',
   group: 'paws',
   plan: 'quadruped',

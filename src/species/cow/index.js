@@ -21,17 +21,17 @@ const pick = (R, table) => {
 
 // withers height (m) of adult cows / bulls per breed, frame and build
 const BREED = {
-  holstein: { name: 'Holstein-Friesian', h: [1.45, 1.63], dairy: 1, udder: [0.8, 1.15], dewlap: 0.35, tags: 0.7, legs: 1, girth: 1, length: 1 },
-  hereford: { name: 'Hereford', h: [1.34, 1.5], dairy: 0, udder: [0.3, 0.45], dewlap: 0.85, tags: 0.5, legs: 0.9, girth: 1.08, length: 0.97 },
-  angus: { name: 'Aberdeen Angus', h: [1.3, 1.45], dairy: 0, udder: [0.3, 0.45], dewlap: 0.45, tags: 0.5, legs: 0.89, girth: 1.08, length: 0.96 },
-  jersey: { name: 'Jersey', h: [1.2, 1.4], dairy: 1, udder: [0.7, 0.95], dewlap: 0.35, tags: 0.7, legs: 1, girth: 0.94, length: 0.98 },
-  highland: { name: 'Highland', h: [1.12, 1.25], dairy: 0.2, udder: [0.25, 0.35], dewlap: 0.3, tags: 0.25, legs: 0.84, girth: 1.06, length: 0.95 },
+  holstein: { name: '홀스타인-프리지안', h: [1.45, 1.63], dairy: 1, udder: [0.8, 1.15], dewlap: 0.35, tags: 0.7, legs: 1, girth: 1, length: 1 },
+  hereford: { name: '헤어퍼드', h: [1.34, 1.5], dairy: 0, udder: [0.3, 0.45], dewlap: 0.85, tags: 0.5, legs: 0.9, girth: 1.08, length: 0.97 },
+  angus: { name: '애버딘 앵거스', h: [1.3, 1.45], dairy: 0, udder: [0.3, 0.45], dewlap: 0.45, tags: 0.5, legs: 0.89, girth: 1.08, length: 0.96 },
+  jersey: { name: '저지', h: [1.2, 1.4], dairy: 1, udder: [0.7, 0.95], dewlap: 0.35, tags: 0.7, legs: 1, girth: 0.94, length: 0.98 },
+  highland: { name: '하이랜드', h: [1.12, 1.25], dairy: 0.2, udder: [0.25, 0.35], dewlap: 0.3, tags: 0.25, legs: 0.84, girth: 1.06, length: 0.95 },
 };
 const VARIANT_KEYS = Object.keys(BREED);
 
 export default {
   id: 'cow',
-  name: 'Cattle',
+  name: '소',
   latin: 'Bos taurus',
   group: 'hooves',
   plan: 'quadruped',

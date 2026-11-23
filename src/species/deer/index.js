@@ -41,15 +41,15 @@ function antlersFor(R, ageClass, g) {
 
 export default {
   id: 'deer',
-  name: 'White-tailed deer',
+  name: '흰꼬리 사슴',
   latin: 'Odocoileus virginianus',
   group: 'hooves',
   plan: 'quadruped',
   covering: 'fur',
   // coat seasons as variants (createAnimal('deer', { variant: 'winter' }))
   variants: [
-    { id: 'summer', name: 'White-tailed deer (summer coat)', latin: 'Odocoileus virginianus' },
-    { id: 'winter', name: 'White-tailed deer (winter coat)', latin: 'Odocoileus virginianus' },
+    { id: 'summer', name: '흰꼬리 사슴 (여름 털)', latin: 'Odocoileus virginianus' },
+    { id: 'winter', name: '흰꼬리 사슴 (겨울 털)', latin: 'Odocoileus virginianus' },
   ],
 
   // Seeded individual. Sex: doe or buck; age: adult (bucks by age class: yearling, 2.5 years,

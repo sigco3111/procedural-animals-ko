@@ -16,7 +16,7 @@ const pick = (R, table) => {
 
 export default {
   id: 'horse',
-  name: 'Horse',
+  name: '말',
   latin: 'Equus caballus',
   group: 'hooves',
   plan: 'quadruped',

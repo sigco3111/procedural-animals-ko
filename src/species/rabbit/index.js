@@ -50,7 +50,7 @@ function variation(R, o) {
 
 export default {
   id: 'rabbit',
-  name: 'European rabbit',
+  name: '유럽 토끼',
   latin: 'Oryctolagus cuniculus',
   group: 'paws',
   plan: 'quadruped',

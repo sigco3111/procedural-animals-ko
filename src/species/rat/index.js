@@ -65,7 +65,7 @@ function variation(R, o) {
 
 export default {
   id: 'rat',
-  name: 'Brown rat',
+  name: '시궁쥐',
   latin: 'Rattus norvegicus',
   group: 'paws',
   plan: 'quadruped',

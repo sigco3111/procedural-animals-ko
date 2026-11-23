@@ -19,7 +19,7 @@ const VARIANTS = [
 
 export default {
   id: 'fox',
-  name: 'Red fox',
+  name: '붉은 여우',
   latin: 'Vulpes vulpes',
   group: 'paws',
   plan: 'quadruped',

@@ -160,7 +160,7 @@ export class Titles {
   // into two lines when it would not fit the frame's width (a 9:16 crop). Returns the block's bottom.
   lockup(cx, cy, t, out, { start = 0.5, k0 = 0.35, maxSize = 118, shadow = 0.62, blur = 46 } = {}) {
     const u = this.u, c = this.ctx;
-    const NAME = 'PROCEDURAL ANIMALS';
+    const NAME = '절차형 동물';
     const measure = (str, size, sp) => { c.save(); c.font = `400 ${size}px ${SERIF}`; c.letterSpacing = `${sp}px`; const w = c.measureText(str).width; c.restore(); return w; };
     let size = Math.round(maxSize * u), sp = 0.07 * size;
     let lines = [NAME];
@@ -169,7 +169,7 @@ export class Titles {
     if (w1 > fit || this.w < this.h) {
       const s2 = size * fit / w1;
       if (s2 >= 0.85 * size && this.w >= this.h) size = Math.floor(s2);
-      else { lines = ['PROCEDURAL', 'ANIMALS']; size = Math.floor(Math.min(size * 1.05, size * fit / measure('PROCEDURAL', size, sp))); }
+      else { lines = ['절차형', '동물']; size = Math.floor(Math.min(size * 1.05, size * fit / measure('절차형', size, sp))); }
       sp = 0.07 * size;
     }
     const eyeSize = Math.round(Math.max(22 * u, size * 0.27)), eyeSp = eyeSize * 0.55;

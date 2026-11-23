@@ -10,6 +10,7 @@ import { ContactShadows } from './contactShadows.js';
 import { DebugViews } from './debugViews.js';
 import { Pilot, gaitTable } from './pilot.js';
 import { Footfalls } from './footfalls.js';
+import { KO_GAIT, KO_ACTION, KO_SEX, KO_AGE, KO_QUALITY, KO_PLAN, KO_VARIANT, koGait, koAction } from './ko.js';
 import { gameCode, highlight } from './codegen.js';
 import { describe, forward, left, headPosition, footPositions } from './subject.js';
 import { runDemo } from './demo.js';
@@ -29,7 +30,7 @@ const params = new URLSearchParams(location.search);
 const TEST = params.has('test');
 // ?demo: the release demo reel (demo.js) takes over the page: no UI, its own sizing, loop and loader
 const DEMO = params.has('demo');
-const GROUPS = [['paws', 'Paws'], ['hooves', 'Hooves'], ['birds', 'Birds'], ['swimmers', 'Swimmers'], ['others', 'Others']];
+const GROUPS = [['paws', '발톱 동물'], ['hooves', '발굽 동물'], ['birds', '새'], ['swimmers', '물속 동물'], ['others', '기타']];
 // (the pixel ratio and the grass go first; the hero's coat tier (shellDrop: fewer shells, no fins) only on
 // the last steps: dropping the fins and half the shells of the hero, close to the camera, is the most
 // visible change of all, and on a desktop it came at the second step (tier 2), so a heavy close-up flipped
@@ -178,7 +179,7 @@ function hideToast() { $('toast').hidden = true; }
 function showError(e) {
   console.error(e);
   if (loaderOpen) $('err').textContent = String(e && e.message ? e.message : e);
-  else { $('toastText').textContent = 'Build failed: ' + (e && e.message ? e.message : e); $('toast').hidden = false; setTimeout(hideToast, 6000); }
+  else { $('toastText').textContent = '생성 실패: ' + (e && e.message ? e.message : e); $('toast').hidden = false; setTimeout(hideToast, 6000); }
 }
 const latinHTML = (l) => { const [g, ...r] = String(l || '').split(' '); return `<i>${g}</i> ${r.join(' ')}`; };
 
@@ -232,7 +233,7 @@ function setSpecies(id) {
 const cap = (t) => String(t).charAt(0).toUpperCase() + String(t).slice(1);
 function variantsOf(s) {
   const v = Array.isArray(s?.variants) ? s.variants : [];
-  return v.map((x) => (typeof x === 'string' ? { id: x, name: cap(x), latin: '' } : x && (x.id ?? x.key) ? { id: String(x.id ?? x.key), name: x.name || cap(x.id ?? x.key), latin: x.latin || '' } : null)).filter(Boolean);
+  return v.map((x) => (typeof x === 'string' ? { id: x, name: KO_VARIANT[x] || cap(x), latin: '' } : x && (x.id ?? x.key) ? { id: String(x.id ?? x.key), name: x.name || (KO_VARIANT[x.id ?? x.key] || cap(x.id ?? x.key)), latin: x.latin || '' } : null)).filter(Boolean);
 }
 // the variant an individual was built as: params.variant (the contract), else a morph named like a variant
 function resolvedVariant(a, m) {
@@ -260,7 +261,7 @@ function buildVariantUI() {
     b.addEventListener('click', () => { if (S.variant !== id) { S.variant = id; syncVariantButtons(); spawnHero(); } });
     box.appendChild(b);
   };
-  add('', 'From seed', 'the seed decides');
+  add('', '시드에 맡김', '시드가 정합니다');
   for (const v of vs) add(v.id, v.name, v.latin);
   syncVariantButtons();
 }
@@ -300,7 +301,7 @@ async function spawnHero() {
   const q = resolvedQuality();
   const pv = (m.variants || []).find((v) => v.id === S.variant);
   if (loaderOpen) { $('loadName').innerHTML = latinHTML(pv?.latin || m.latin || m.name); progressUI(0.03, 'mesh'); }
-  else toast(`Building ${(pv?.name || m.name).toLowerCase()} · seed ${S.seed} · ${q}`);
+  else toast(`생성 중: ${pv?.name || m.name} · 시드 ${S.seed} · ${KO_QUALITY[q] || q}`);
   // keep the old animal's place; swimmers start in the lake, land animals out of it
   const swimmer = m.plan === 'swimmer';
   let pos, heading = hero ? hero.heading : 0.6;
@@ -364,13 +365,13 @@ async function spawnHero() {
   setShadows();
   // climb / dive buttons for flyers and swimmers (also on desktop: Space / C do the same)
   $('climb').hidden = !(heroInfo.flyer || heroInfo.swimmer);
-  $('climb').querySelector('[data-c="1"]').setAttribute('aria-label', heroInfo.swimmer ? 'Rise' : 'Climb');
-  $('climb').querySelector('[data-c="-1"]').setAttribute('aria-label', heroInfo.swimmer ? 'Dive' : 'Descend');
+  $('climb').querySelector('[data-c="1"]').setAttribute('aria-label', heroInfo.swimmer ? '올라가기' : '오르기');
+  $('climb').querySelector('[data-c="-1"]').setAttribute('aria-label', heroInfo.swimmer ? '잠수' : '내려가기');
   $('altStat').hidden = !(heroInfo.flyer || heroInfo.swimmer);
   document.querySelector('.climbHint').hidden = !(heroInfo.flyer || heroInfo.swimmer);
-  $('climbWord').textContent = heroInfo.swimmer ? 'rise / dive' : 'climb / descend';
-  $('altK').textContent = heroInfo.swimmer ? 'depth m' : 'alt m';
-  $('crowdLabel').textContent = `${cap(groupWord(heroInfo))} of this species`;
+  $('climbWord').textContent = heroInfo.swimmer ? '올라가기 / 잠수' : '오르기 / 내리기';
+  $('altK').textContent = heroInfo.swimmer ? '수심 m' : '고도 m';
+  $('crowdLabel').textContent = '이 종의 무리';
   document.body.classList.toggle('swimmerHero', !!heroInfo.swimmer);
   world.setWaterClarity?.(heroInfo.swimmer ? 1 : 0);
   if (S.crowd) rebuildCrowd();
@@ -392,9 +393,9 @@ function updateTitle(buildMs) {
   const d = hero.data, p = hero.params || {};
   const N = namesOf(hero, m);
   $('tName').innerHTML = latinHTML(N.latin || N.name);
-  $('tSub').textContent = [N.name, 'seed ' + S.seed, p.sex, p.age, hero.quality].filter(Boolean).join(' · ');
+  $('tSub').textContent = [N.name, '시드 ' + S.seed, KO_SEX[p.sex] || p.sex, KO_AGE[p.age] || p.age, KO_QUALITY[hero.quality] || hero.quality].filter(Boolean).join(' · ');
   const st = d.stats || {};
-  $('buildNote').innerHTML = `Built in your browser in <b>${(buildMs / 1000).toFixed(1)} s</b>: <b>${(d.nV || 0).toLocaleString()}</b> vertices, <b>${Math.round((d.index?.length || 0) / 3).toLocaleString()}</b> triangles from <b>${st.prims ?? d.prims?.length ?? '–'}</b> SDF primitives, <b>${d.bones?.length || '–'}</b> bones. Plan: <b>${m.plan}</b>${N.variant ? `, variant <b>${N.variant.id}</b>` : ''}.`;
+  $('buildNote').innerHTML = `브라우저에서 <b>${(buildMs / 1000).toFixed(1)}초</b> 만에 생성: 정점 <b>${(d.nV || 0).toLocaleString()}</b>개, 삼각형 <b>${Math.round((d.index?.length || 0) / 3).toLocaleString()}</b>개, SDF 기본형 <b>${st.prims ?? d.prims?.length ?? '–'}</b>개, 뼈 <b>${d.bones?.length || '–'}</b>개. 체형: <b>${KO_PLAN[m.plan] || m.plan}</b>${N.variant ? `, 변이 <b>${N.variant.id}</b>` : ''}.`;
   document.title = `${N.name} · THREE.JS PROCEDURAL ANIMALS`;
 }
 
@@ -425,15 +426,15 @@ function buildActionsUI() {
   box.innerHTML = '';
   const list = actionList();
   if (!list.length) {
-    box.innerHTML = '<span class="chip" aria-disabled="true" style="opacity:.6">no actions yet for this species (idle only)</span>';
+    box.innerHTML = '<span class="chip" aria-disabled="true" style="opacity:.6">이 종은 아직 행동이 없습니다 (대기만 가능)</span>';
     return;
   }
   list.forEach((name, i) => {
     const b = document.createElement('button');
     b.className = 'chip' + (name === 'death' ? ' warn' : '');
     b.dataset.action = name;
-    b.textContent = name;
-    b.title = i < 9 ? `${name} (key ${i + 1})` : name;
+    b.textContent = koAction(name);
+    b.title = i < 9 ? `${koAction(name)} (${i + 1}번 키)` : koAction(name);
     b.addEventListener('click', () => playAction(name, true));
     box.appendChild(b);
   });
@@ -512,8 +513,8 @@ function buildGaitUI() {
     b.addEventListener('click', () => { pilot.setCruise(speed, gait || null); $('speed').value = speed; syncControls(); updateCode(); });
     seg.appendChild(b);
   };
-  add('Stand', 0, '');
-  for (const g of heroGaits.list) add(g.name, +g.speed.toFixed(2), g.name);
+  add('정지', 0, '');
+  for (const g of heroGaits.list) add(koGait(g.name), +g.speed.toFixed(2), g.name);
   const sp = $('speed');
   sp.max = String(+heroGaits.max.toPrecision(3));
   sp.step = 'any'; // a spider's 0.2 m/s and a cheetah's 30 m/s on the same slider
@@ -711,7 +712,7 @@ $('seed').addEventListener('keydown', (e) => { if (e.key === 'Enter') e.target.b
 $('dice').addEventListener('click', () => { S.seed = Math.floor(Math.random() * 100000); $('seed').value = S.seed; spawnHero(); });
 $('rebuild').addEventListener('click', () => { S.seed = Math.max(0, Math.floor(+$('seed').value || 0)) >>> 0; spawnHero(); });
 $('quality').value = S.quality;
-const autoOpt = () => { $('quality').querySelector('option[value="auto"]').textContent = `Auto · ${autoQuality}`; };
+const autoOpt = () => { $('quality').querySelector('option[value="auto"]').textContent = `자동 · ${KO_QUALITY[autoQuality] || autoQuality}`; };
 autoOpt();
 $('quality').addEventListener('change', (e) => { S.quality = e.target.value; spawnHero(); });
 for (const o of $('quality').options) if (o.value !== 'auto' && !qualityNames.includes(o.value)) o.disabled = true;
@@ -760,7 +761,7 @@ function updateCode(lastAction) {
   const N = namesOf(hero, m);
   codeText = gameCode({
     species: S.species, name: N.name || m.name || S.species, latin: N.latin || m.latin || '', plan: m.plan, seed: S.seed,
-    variant: S.variant || '', variantNote: !S.variant && N.variant ? `variant '${N.variant.id}' from the seed` : '',
+    variant: S.variant || '', variantNote: !S.variant && N.variant ? `시드에서 온 변이 '${N.variant.id}'` : '',
     quality: hero.quality, sex: S.sex, age: S.age, actions: actionList(), lastAction,
     gait: g, speed: pilot.cruise > 0 ? pilot.cruise : heroGaits?.walk || 1.25,
     buildSec: ((hero.buildWallMs || 0) / 1000).toFixed(1), water: !!heroInfo?.swimmer,
@@ -777,8 +778,8 @@ $('copy').addEventListener('click', async () => {
     try { ok = document.execCommand('copy'); } catch (e2) { ok = false; }
     ta.remove();
   }
-  b.textContent = ok ? 'Copied' : 'Select & copy';
-  setTimeout(() => { b.textContent = 'Copy'; }, 1600);
+  b.textContent = ok ? '복사됨' : '직접 선택해 복사';
+  setTimeout(() => { b.textContent = '복사'; }, 1600);
 });
 
 // ------------------------------------------------------------------ crowd
@@ -827,7 +828,7 @@ async function rebuildCrowd() {
   // the whole group is the variant the hero is (a school of one kind of fish)
   const variant = S.variant || resolvedVariant(hero, meta[S.species])?.id || undefined;
   const word = groupWord(info);
-  toast(`Building a ${word} of ${N} · ${seeds.length} individuals, crowd quality`);
+  toast(`무리 생성 중: ${N} · ${seeds.length}마리 · 군중 품질`);
   const t0 = performance.now();
   try {
     for (let i = 0; i < N; i++) {
@@ -852,13 +853,13 @@ async function rebuildCrowd() {
       const mi = describe(a1);
       crowd.members.push({ animal: a1, info: mi, gaits: gaitTable(a1, mi), slot: new THREE.Vector3(sx, sy, sz), speed: 0, phase: Math.random() * 10, orbit: Math.atan2(sz, sx), i });
       $('toastBar').style.width = Math.round(((i + 1) / N) * 100) + '%';
-      $('toastText').textContent = `${cap(word)}: ${i + 1} / ${N}`;
+      $('toastText').textContent = `무리: ${i + 1} / ${N}`;
     }
   } catch (e) { showError(e); }
   crowd.building = false;
   crowd.buildMs = performance.now() - t0;
   setTimeout(hideToast, 400);
-  $('crowdNote').innerHTML = `A ${word}: <b>${crowd.members.length}</b> animals from <b>${seeds.length}</b> seeds, built in <b>${(crowd.buildMs / 1000).toFixed(1)} s</b> (shared geometry data, one draw call each, crowd motion LOD).`;
+  $('crowdNote').innerHTML = `무리: <b>${crowd.members.length}</b>마리, 시드 <b>${seeds.length}</b>개, <b>${(crowd.buildMs / 1000).toFixed(1)}초</b> 만에 생성 (지오메트리 데이터 공유, 개체당 드로 콜 1개, 군중 모션 LOD).`;
 }
 const _L = new THREE.Vector3(), _F = new THREE.Vector3(), _t = new THREE.Vector3(), _d = new THREE.Vector3();
 const clamp = THREE.MathUtils.clamp;
@@ -969,7 +970,7 @@ async function spawnCompare(linked) {
   const sp = $('cmpSpecies').value || S.species;
   const m = meta[sp] || { name: sp, latin: '', plan: 'quadruped' };
   const seed = S.cmpSeed === S.seed && sp === S.species ? S.seed + 1 : S.cmpSeed;
-  toast(`Building ${m.name.toLowerCase()} · seed ${seed} for comparison`);
+  toast(`비교용 생성 중: ${m.name} · 시드 ${seed}`);
   const gap = Math.max(4 * heroInfo.span, 1.2);
   const off = left(hero.heading).multiplyScalar(-gap);
   let pos = hero.position.clone().add(off);
@@ -1163,22 +1164,22 @@ function updateHUD() {
   const v = hero.speed || 0;
   $('sSpeed').textContent = (v * 3.6).toFixed(v < 2.7 ? 1 : 0);
   const gname = hero.state?.gait || (v > 0.05 ? 'moving' : 'stand');
-  $('sGait').textContent = gname;
+  $('sGait').textContent = koGait(gname);
   $('sFps').textContent = fps ? fps.toFixed(0) : '–';
   const act = hero.state?.action;
   let where = '';
   if (heroInfo.flyer && Number.isFinite(hero.state?.altitude)) {
     const alt = hero.state.altitude;
     $('sAlt').textContent = alt.toFixed(alt < 10 ? 1 : 0);
-    if (hero.state.mode === 'perch') where = ' · perched';
-    else if (hero.state.grounded === false && alt > 0.2 * heroInfo.height) where = ` · ${alt.toFixed(1)} m up`;
+    if (hero.state.mode === 'perch') where = ' · 가지에 앉음';
+    else if (hero.state.grounded === false && alt > 0.2 * heroInfo.height) where = ` · 상공 ${alt.toFixed(1)} m`;
   } else if (heroInfo.swimmer && Number.isFinite(hero.state?.depth)) {
     const dp = Math.max(0, hero.state.depth);
     $('sAlt').textContent = dp.toFixed(2);
-    where = hero.state.inWater === false ? ' · out of the water' : ` · ${dp < 1 ? Math.round(dp * 100) + ' cm' : dp.toFixed(1) + ' m'} deep`;
+    where = hero.state.inWater === false ? ' · 물 밖' : ` · 수심 ${dp < 1 ? Math.round(dp * 100) + ' cm' : dp.toFixed(1) + ' m'}`;
   }
-  $('statusText').textContent = pendingAction ? 'Heading to the water' : `${pilot.status}${act && act !== 'idle' && !pilot.status.toLowerCase().includes(act) ? ' · ' + act : ''} · ${gname}${where}`;
-  if (S.footfalls) footfalls.draw(gname, hero);
+  $('statusText').textContent = pendingAction ? '물로 가는 중' : `${pilot.status}${act && act !== 'idle' && !pilot.status.toLowerCase().includes(act) ? ' · ' + koAction(act) : ''} · ${koGait(gname)}${where}`;
+  if (S.footfalls) footfalls.draw(koGait(gname), hero);
   if (pilot.mode !== 'auto' && $('speed') !== document.activeElement && !pilot.target) { /* keep the slider where the user put it */ }
   if (S.perf) {
     const animals = allAnimals();

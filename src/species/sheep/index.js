@@ -29,17 +29,17 @@ const BREEDS = {
 
 export default {
   id: 'sheep',
-  name: 'Sheep',
+  name: '양',
   latin: 'Ovis aries',
   group: 'hooves',
   plan: 'quadruped',
   covering: 'fur',
   variants: [
-    { id: 'whiteface', name: 'White-faced sheep', latin: 'Ovis aries' },
-    { id: 'suffolk', name: 'Suffolk', latin: 'Ovis aries' },
-    { id: 'merino', name: 'Merino', latin: 'Ovis aries' },
-    { id: 'black', name: 'Black sheep', latin: 'Ovis aries' },
-    { id: 'shorn', name: 'Shorn sheep', latin: 'Ovis aries' },
+    { id: 'whiteface', name: '흰 얼굴 양', latin: 'Ovis aries' },
+    { id: 'suffolk', name: '서퍽', latin: 'Ovis aries' },
+    { id: 'merino', name: '메리노', latin: 'Ovis aries' },
+    { id: 'black', name: '검은 양', latin: 'Ovis aries' },
+    { id: 'shorn', name: '털 깎은 양', latin: 'Ovis aries' },
   ],
 
   // Seeded individual. Breed / morph (o.variant: whiteface (default type), suffolk, merino, black,

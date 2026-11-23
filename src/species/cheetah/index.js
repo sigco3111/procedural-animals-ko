@@ -7,7 +7,7 @@ import { motion } from './motion.js';
 
 export default {
   id: 'cheetah',
-  name: 'Cheetah',
+  name: '치타',
   latin: 'Acinonyx jubatus',
   group: 'paws',
   plan: 'quadruped',

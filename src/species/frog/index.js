@@ -58,15 +58,15 @@ function variation(R, o) {
 
 export default {
   id: 'frog',
-  name: 'True frog',
+  name: '개구리',
   latin: 'Lithobates catesbeianus / Rana temporaria',
   group: 'others',
   plan: 'quadruped',
   covering: 'skin',
   variants: [
-    { id: 'bullfrog', name: 'American bullfrog', latin: 'Lithobates catesbeianus' },
-    { id: 'bullfrog-pale', name: 'American bullfrog (pale morph)', latin: 'Lithobates catesbeianus' },
-    { id: 'common-frog', name: 'Common frog', latin: 'Rana temporaria' },
+    { id: 'bullfrog', name: '황소개구리', latin: 'Lithobates catesbeianus' },
+    { id: 'bullfrog-pale', name: '황소개구리 (엷은 색 개체)', latin: 'Lithobates catesbeianus' },
+    { id: 'common-frog', name: '참개구리', latin: 'Rana temporaria' },
   ],
   variation,
   rig: (params) => frogRig(params),

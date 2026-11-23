@@ -11,14 +11,14 @@ const VARIANTS = { corn: 'corn', cornsnake: 'corn', rattlesnake: 'rattlesnake', 
 
 export default {
   id: 'snake',
-  name: 'Snake',
+  name: '뱀',
   latin: 'Pantherophis guttatus',
   group: 'others',
   plan: 'snake',
   covering: 'scales',
   variants: [
-    { id: 'corn', name: 'Corn snake', latin: 'Pantherophis guttatus' },
-    { id: 'rattlesnake', name: 'Western diamondback rattlesnake', latin: 'Crotalus atrox' },
+    { id: 'corn', name: '콘 스네이크', latin: 'Pantherophis guttatus' },
+    { id: 'rattlesnake', name: '서부 다이아몬드백 방울뱀', latin: 'Crotalus atrox' },
   ],
 
   // Seeded individual. Size: corn adults 0.9-1.5 m (reference 1.2 m), rattlesnake 0.9-1.6 m, males

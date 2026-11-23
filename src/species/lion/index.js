@@ -9,7 +9,7 @@ import { lionWhiskers } from './whiskers.js';
 
 export default {
   id: 'lion',
-  name: 'Lion',
+  name: '사자',
   latin: 'Panthera leo',
   group: 'paws',
   plan: 'quadruped',
