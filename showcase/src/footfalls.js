@@ -171,7 +171,7 @@ export class Footfalls {
         g.stroke();
       }
     }
-    if (this.title) this.title.textContent = wave ? 'Body wave' : 'Footfalls';
+    if (this.title) this.title.textContent = wave ? '몸통 파동' : '발자국';
     if (this.label) {
       let txt = gaitName || '';
       if (wave) {

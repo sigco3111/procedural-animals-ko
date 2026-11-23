@@ -396,7 +396,7 @@ function updateTitle(buildMs) {
   $('tSub').textContent = [N.name, '시드 ' + S.seed, KO_SEX[p.sex] || p.sex, KO_AGE[p.age] || p.age, KO_QUALITY[hero.quality] || hero.quality].filter(Boolean).join(' · ');
   const st = d.stats || {};
   $('buildNote').innerHTML = `브라우저에서 <b>${(buildMs / 1000).toFixed(1)}초</b> 만에 생성: 정점 <b>${(d.nV || 0).toLocaleString()}</b>개, 삼각형 <b>${Math.round((d.index?.length || 0) / 3).toLocaleString()}</b>개, SDF 기본형 <b>${st.prims ?? d.prims?.length ?? '–'}</b>개, 뼈 <b>${d.bones?.length || '–'}</b>개. 체형: <b>${KO_PLAN[m.plan] || m.plan}</b>${N.variant ? `, 변이 <b>${N.variant.id}</b>` : ''}.`;
-  document.title = `${N.name} · THREE.JS PROCEDURAL ANIMALS`;
+  document.title = `${N.name} · THREE.JS 절차형 동물`;
 }
 
 // ------------------------------------------------------------------ events
